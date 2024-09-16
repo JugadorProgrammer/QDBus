@@ -1,8 +1,25 @@
 #include "fileopener.h"
-#include <QUrl>
-#include <QFileInfo>
 
-FileOpener::FileOpener(QObject *parent) : QObject(parent){}
+FileOpener::FileOpener(QObject *parent) : QObject(parent)
+{
+    _applications =
+    {
+        {"txt","kate"},
+        {"cpp","qtcreator"},
+        {"hpp","qtcreator"},
+        {"c","qtcreator"},
+        {"h","qtcreator"},
+        {"asm","qtcreator"},
+        {"png","gwenview"},
+        {"jpg","gwenview"},
+        {"pdf","kate"},
+        {"docx","onlyoffice-desktopeditors"},
+        {"csv","onlyoffice-desktopeditors"},
+        {"djvu","okular"},
+        {"md","code"},
+        {"cs","code"}
+    };
+}
 
 void FileOpener::openFile(const QString &filePath)
 {
@@ -13,10 +30,18 @@ void FileOpener::openFile(const QString &filePath)
         return;
     }
 
-    qInfo() << "Path to file: " << filePath;
-    auto qProcess = QProcess();
+    auto extention = fileInfo.suffix();
+    qInfo() << "File extension: " << filePath;
+    if(!_applications.contains(extention))
+    {
+        qWarning("Application does not found.");
+        return;
+    }
 
-    if (!qProcess.startDetached(this->_command, QStringList() << filePath))
+    auto application = _applications[extention];
+
+    auto qProcess = QProcess();
+    if (!qProcess.startDetached(application, QStringList() << filePath))
     {
         qFatal("The process cannot be started!");
         return;
@@ -33,5 +58,5 @@ void FileOpener::openFile(const QString &filePath)
         qFatal(output);
     });
 
-    qProcess.waitForFinished();
+    qProcess.waitForFinished();// /usr/share/mime/packages/freedesktop.org.xml
 }

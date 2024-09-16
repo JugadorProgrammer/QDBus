@@ -1,5 +1,4 @@
 #include <QCoreApplication>
-#include <QDBusConnection>
 #include "fileopener.h"
 
 int main(int argc, char *argv[])
@@ -17,7 +16,7 @@ int main(int argc, char *argv[])
     }
     else
     {
-        qInfo()<<"Opener is started!\n";
+        qInfo() << "Opener is started!";
     }
 
     return a.exec();

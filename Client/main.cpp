@@ -7,7 +7,7 @@
 bool tryConnectToBus(const QString& filePath)
 {
     // Создание сообщения для вызова метода sayHello
-    auto message = QDBusMessage::createMethodCall("com.example.FileOpener",
+    auto message = QDBusMessage::createMethodCall("org.freedesktop.FileOpener",
                                                           "/FileOpener", //path
                                                           "local.Server.FileOpener", //interface
                                                           "openFile");
